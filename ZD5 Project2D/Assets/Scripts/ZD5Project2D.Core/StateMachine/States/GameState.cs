@@ -1,25 +1,28 @@
 using UnityEngine;
 
-namespace ZD5Project2D.Core;
-public class GameState : BaseState
+namespace ZD5Project2D.Core
 {
-    public override void DestroyState()
+    public class GameState : BaseState
     {
+        public override void InitState(GameController gameController)
+        {
+            base.InitState(gameController);
+        }
 
-    }
+        public override void UpdateState()
+        {
 
-    public override void FixedUpdateState()
-    {
+        }
 
-    }
+        public override void FixedUpdateState()
+        {
 
-    public override void InitState()
-    {
+        }
 
-    }
+        public override void DestroyState()
+        {
 
-    public override void UpdateState()
-    {
+        }
 
     }
 }
