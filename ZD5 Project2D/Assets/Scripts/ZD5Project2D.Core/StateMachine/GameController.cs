@@ -1,10 +1,15 @@
 using UnityEngine;
+using ZD5Project2D.UI;
 
 namespace ZD5Project2D.Core
 {
 	public class GameController : MonoBehaviour
 	{
 		private BaseState currentState;
+
+        [SerializeField]
+        private MenuView menuView;
+        public MenuView MenuView => menuView; // {get { return menuView }}
 
         private void Start()
         {
