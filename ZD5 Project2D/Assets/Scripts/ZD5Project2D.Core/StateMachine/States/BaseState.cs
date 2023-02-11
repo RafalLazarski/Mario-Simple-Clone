@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace ZD5Project2D;
+namespace ZD5Project2D.Core;
 
 public abstract class BaseState
 {

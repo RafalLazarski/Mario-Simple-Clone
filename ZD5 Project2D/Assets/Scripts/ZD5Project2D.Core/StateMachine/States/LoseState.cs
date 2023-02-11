@@ -1,9 +1,8 @@
 using UnityEngine;
 
-namespace ZD5Project2D;
-public class MenuState : BaseState
+namespace ZD5Project2D.Core;
+public class LoseState : BaseState
 {
-
     public override void DestroyState()
     {
 

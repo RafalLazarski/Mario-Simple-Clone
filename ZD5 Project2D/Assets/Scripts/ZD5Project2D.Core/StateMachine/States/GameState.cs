@@ -1,7 +1,7 @@
 using UnityEngine;
 
-namespace ZD5Project2D;
-public class LoseState : BaseState
+namespace ZD5Project2D.Core;
+public class GameState : BaseState
 {
     public override void DestroyState()
     {
