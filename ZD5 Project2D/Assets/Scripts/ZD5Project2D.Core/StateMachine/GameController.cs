@@ -1,5 +1,6 @@
 using UnityEngine;
 using ZD5Project2D.UI;
+using ZD5Project2D.Player;
 
 namespace ZD5Project2D.Core
 {
@@ -10,6 +11,10 @@ namespace ZD5Project2D.Core
         [SerializeField]
         private MenuView menuView;
         public MenuView MenuView => menuView; // {get { return menuView }}
+
+        [SerializeField]
+        private PlayerMovement playerMovement;
+        public PlayerMovement PlayerMovement => playerMovement;
 
         private void Start()
         {
