@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace ZD5Project2D.Core
 {
@@ -7,12 +8,13 @@ namespace ZD5Project2D.Core
         public override void InitState(GameController gameController)
         {
             base.InitState(gameController);
+            gameController.MenuView.StartButton.onClick.AddListener(() => gameController.ChangeState(new GameState()));
             gameController.MenuView.ShowView();
         }
 
         public override void UpdateState()
         {
-            Debug.Log("Menu update");
+
         }
 
         public override void FixedUpdateState()
@@ -23,6 +25,7 @@ namespace ZD5Project2D.Core
         public override void DestroyState()
         {
             gameController.MenuView.HideView();
+            gameController.MenuView.StartButton.onClick.RemoveAllListeners();
         }
     }
 }
