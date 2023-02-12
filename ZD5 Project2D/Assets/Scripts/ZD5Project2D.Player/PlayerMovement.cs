@@ -7,6 +7,7 @@ namespace ZD5Project2D.Player
         // TODO: move that const to other class
         public const string HORIZONTAL_AXIS = "Horizontal";
         public const string SPRINT_AXIS = "Sprint";
+        public const string JUMP_AXIS = "Jump";
 
         [SerializeField]
         private Rigidbody2D rigidbody2D;
@@ -24,7 +25,10 @@ namespace ZD5Project2D.Player
         private float maxSprintSpeed = 10;
 
         [SerializeField]
-        private float jumpForce = 5;
+        private float jumpForce = 7;
+
+        [SerializeField]
+        private float maxJumpSpeed = 2;
 
         [SerializeField]
         private int jumpsAmount = 2;
@@ -35,7 +39,10 @@ namespace ZD5Project2D.Player
         private float moveInput;
         private float sprintInput;
         private float scaleX;
+        private float jumpHeight;
         private int jumpsLeft;
+        private float jumpInput;
+        private bool isJumpButtonClicked;
         private bool isGrounded;
 
         public void Init()
@@ -49,7 +56,16 @@ namespace ZD5Project2D.Player
         {
             moveInput = Input.GetAxisRaw(HORIZONTAL_AXIS);
             sprintInput = Input.GetAxisRaw(SPRINT_AXIS);
-            Jump();
+            jumpInput = Input.GetAxisRaw(JUMP_AXIS);
+
+            if (jumpInput == 0)
+                isJumpButtonClicked = false;
+
+            if (jumpInput > 0 && !isJumpButtonClicked)
+            {
+                isJumpButtonClicked = true;
+                Jump();
+            }
         }
 
         public void FixedUpdatePosition()
@@ -87,39 +103,33 @@ namespace ZD5Project2D.Player
 
         public void Jump()
         {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
+            // change to BoxCast
+            //RaycastHit2D raycastHit = Physics2D.Raycast(rigidbody2D.position, Vector2.down, rigidbody2D.transform.localScale.y * 0.6f);
+            RaycastHit2D boxCastHit = Physics2D.BoxCast(rigidbody2D.position, rigidbody2D.transform.localScale, 0, Vector2.down, 0.1f);
+            //if (Input.GetKeyDown(KeyCode.Space))
+            //{
+                //if()
+                //{
+                    if (boxCastHit.collider != null && boxCastHit.collider.CompareTag("Ground"))
+                    {
+                        jumpsLeft = jumpsAmount;
+                    }
+                //}
+
                 if(jumpsLeft > 0)
                 {
                     rigidbody2D.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
                     jumpsLeft--;
                 }
-            }
-        }
+            //}
 
-        private void OnCollisionStay2D(Collision2D collision)
-        {
-            if (collision.gameObject.tag == "Ground")
-            {
-                isGrounded = true;
-                ResetJumps();
-            }
-        }
+            var y = rigidbody2D.velocity.y;
+            var direction = Mathf.Sign(y);
+            y = Mathf.Abs(y);
+            y = Mathf.Clamp(y, 0, maxJumpSpeed);
 
-        private void OnCollisionExit2D(Collision2D collision)
-        {
-            if (collision.gameObject.tag == "Ground")
-            {
-                isGrounded = false;
-            }
-        }
-
-        public void ResetJumps()
-        {
-            if(isGrounded)
-            {
-                jumpsLeft = jumpsAmount - 1;
-            }
+            Vector2 finalVelocity = new Vector2(rigidbody2D.velocity.x, y * direction);
+            rigidbody2D.velocity = finalVelocity;
         }
     } 
 }
