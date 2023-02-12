@@ -4,7 +4,7 @@ namespace ZD5Project2D.Player
 {
 	public class PlayerMovement : MonoBehaviour
     {
-        // TODO: move that const to other class
+        // TODO: move that consts to other class
         public const string HORIZONTAL_AXIS = "Horizontal";
         public const string SPRINT_AXIS = "Sprint";
         public const string JUMP_AXIS = "Jump";
@@ -49,7 +49,6 @@ namespace ZD5Project2D.Player
         {
             gameObject.SetActive(true);
             scaleX = transform.localScale.x;
-            // set start position
         }
 
         public void UpdatePosition()
@@ -70,20 +69,30 @@ namespace ZD5Project2D.Player
 
         public void FixedUpdatePosition()
         {
+            HorizontalMovement();
+        }
+
+        public void Dispose()
+        {
+            gameObject.SetActive(false);
+        }
+
+        public void HorizontalMovement()
+        {
             float playerMovement = moveInput * moveSpeed;
 
-            if(sprintInput > 0)
+            if (sprintInput > 0)
             {
                 playerMovement *= sprintBoost;
             }
-            
+
             rigidbody2D.AddForce(Vector2.right * playerMovement, ForceMode2D.Force);
 
             var x = rigidbody2D.velocity.x;
             var direction = Mathf.Sign(x);
             x = Mathf.Abs(x);
 
-            if(sprintInput == 0)
+            if (sprintInput == 0)
             {
                 x = Mathf.Clamp(x, 0, maxWalkSpeed);
             }
@@ -96,32 +105,20 @@ namespace ZD5Project2D.Player
             rigidbody2D.velocity = finalVelocity;
         }
 
-        public void Dispose()
-        {
-            gameObject.SetActive(false);
-        }
-
         public void Jump()
         {
-            // change to BoxCast
-            //RaycastHit2D raycastHit = Physics2D.Raycast(rigidbody2D.position, Vector2.down, rigidbody2D.transform.localScale.y * 0.6f);
             RaycastHit2D boxCastHit = Physics2D.BoxCast(rigidbody2D.position, rigidbody2D.transform.localScale, 0, Vector2.down, 0.1f);
-            //if (Input.GetKeyDown(KeyCode.Space))
-            //{
-                //if()
-                //{
-                    if (boxCastHit.collider != null && boxCastHit.collider.CompareTag("Ground"))
-                    {
-                        jumpsLeft = jumpsAmount;
-                    }
-                //}
 
-                if(jumpsLeft > 0)
-                {
-                    rigidbody2D.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
-                    jumpsLeft--;
-                }
-            //}
+            if (boxCastHit.collider != null && boxCastHit.collider.CompareTag("Ground"))
+            {
+                jumpsLeft = jumpsAmount;
+            }
+
+            if(jumpsLeft > 0)
+            {
+                rigidbody2D.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
+                jumpsLeft--;
+            }
 
             var y = rigidbody2D.velocity.y;
             var direction = Mathf.Sign(y);
