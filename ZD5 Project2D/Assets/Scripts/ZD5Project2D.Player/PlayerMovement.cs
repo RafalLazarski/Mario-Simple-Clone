@@ -15,7 +15,13 @@ namespace ZD5Project2D.Player
         private float moveSpeed = 7;
 
         [SerializeField]
+        private float maxWalkSpeed = 5;
+
+        [SerializeField]
         private float sprintBoost = 1.5f;
+
+        [SerializeField]
+        private float maxSprintSpeed = 10;
 
         [SerializeField]
         private float jumpForce = 5;
@@ -24,10 +30,7 @@ namespace ZD5Project2D.Player
         private int jumpsAmount = 2;
 
         [SerializeField]
-        private Transform GroundCheck;
-
-        [SerializeField]
-        private LayerMask GroundLayer;
+        private Collider2D collider2D;
 
         private float moveInput;
         private float sprintInput;
@@ -51,14 +54,30 @@ namespace ZD5Project2D.Player
 
         public void FixedUpdatePosition()
         {
+            float playerMovement = moveInput * moveSpeed;
+
             if(sprintInput > 0)
             {
-                rigidbody2D.AddForce(Vector2.right * (moveInput * sprintBoost * moveSpeed), ForceMode2D.Force);
+                playerMovement *= sprintBoost;
+            }
+            
+            rigidbody2D.AddForce(Vector2.right * playerMovement, ForceMode2D.Force);
+
+            var x = rigidbody2D.velocity.x;
+            var direction = Mathf.Sign(x);
+            x = Mathf.Abs(x);
+
+            if(sprintInput == 0)
+            {
+                x = Mathf.Clamp(x, 0, maxWalkSpeed);
             }
             else
             {
-                rigidbody2D.AddForce(Vector2.right * (moveInput * moveSpeed), ForceMode2D.Force);
+                x = Mathf.Clamp(x, 0, maxSprintSpeed);
             }
+
+            Vector2 finalVelocity = new Vector2(x * direction, rigidbody2D.velocity.y);
+            rigidbody2D.velocity = finalVelocity;
         }
 
         public void Dispose()
@@ -70,7 +89,6 @@ namespace ZD5Project2D.Player
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                CheckIfGrounded();
                 if(jumpsLeft > 0)
                 {
                     rigidbody2D.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
@@ -79,17 +97,28 @@ namespace ZD5Project2D.Player
             }
         }
 
-        public void CheckIfGrounded()
+        private void OnCollisionStay2D(Collision2D collision)
         {
-            isGrounded = Physics2D.OverlapCircle(GroundCheck.position, GroundCheck.GetComponent<CircleCollider2D>().radius, GroundLayer);
-            ResetJumps();
+            if (collision.gameObject.tag == "Ground")
+            {
+                isGrounded = true;
+                ResetJumps();
+            }
+        }
+
+        private void OnCollisionExit2D(Collision2D collision)
+        {
+            if (collision.gameObject.tag == "Ground")
+            {
+                isGrounded = false;
+            }
         }
 
         public void ResetJumps()
         {
             if(isGrounded)
             {
-                jumpsLeft = jumpsAmount;
+                jumpsLeft = jumpsAmount - 1;
             }
         }
     } 
