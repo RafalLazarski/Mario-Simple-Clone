@@ -6,15 +6,19 @@ namespace ZD5Project2D.Player
     {
         // TODO: move that const to other class
         public const string HORIZONTAL_AXIS = "Horizontal";
+        public const string SPRINT_AXIS = "Sprint";
 
         [SerializeField]
         private Rigidbody2D rigidbody2D;
 
         [SerializeField]
-        private float moveSpeed = 10;
+        private float moveSpeed = 7;
 
         [SerializeField]
-        private float jumpForce = 2;
+        private float sprintBoost = 1.5f;
+
+        [SerializeField]
+        private float jumpForce = 5;
 
         [SerializeField]
         private int jumpsAmount = 2;
@@ -26,6 +30,7 @@ namespace ZD5Project2D.Player
         private LayerMask GroundLayer;
 
         private float moveInput;
+        private float sprintInput;
         private float scaleX;
         private int jumpsLeft;
         private bool isGrounded;
@@ -40,12 +45,20 @@ namespace ZD5Project2D.Player
         public void UpdatePosition()
         {
             moveInput = Input.GetAxisRaw(HORIZONTAL_AXIS);
+            sprintInput = Input.GetAxisRaw(SPRINT_AXIS);
             Jump();
         }
 
         public void FixedUpdatePosition()
         {
-            rigidbody2D.AddForce(Vector2.right * (moveInput * moveSpeed), ForceMode2D.Force);
+            if(sprintInput > 0)
+            {
+                rigidbody2D.AddForce(Vector2.right * (moveInput * sprintBoost * moveSpeed), ForceMode2D.Force);
+            }
+            else
+            {
+                rigidbody2D.AddForce(Vector2.right * (moveInput * moveSpeed), ForceMode2D.Force);
+            }
         }
 
         public void Dispose()
@@ -60,7 +73,7 @@ namespace ZD5Project2D.Player
                 CheckIfGrounded();
                 if(jumpsLeft > 0)
                 {
-                    rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, jumpForce);
+                    rigidbody2D.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
                     jumpsLeft--;
                 }
             }
