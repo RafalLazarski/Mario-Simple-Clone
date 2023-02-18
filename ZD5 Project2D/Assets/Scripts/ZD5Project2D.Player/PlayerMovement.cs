@@ -36,19 +36,25 @@ namespace ZD5Project2D.Player
         [SerializeField]
         private Collider2D collider2D;
 
+        [SerializeField]
+        private CameraController camera;
+
+        [SerializeField]
+        private float cameraRaycastRange = 7.0f;
+
+        [SerializeField]
+        private SpriteRenderer sprite;
+
         private float moveInput;
         private float sprintInput;
-        private float scaleX;
-        private float jumpHeight;
         private int jumpsLeft;
         private float jumpInput;
         private bool isJumpButtonClicked;
-        private bool isGrounded;
+        private int faceDirection = 1;
 
         public void Init()
         {
             gameObject.SetActive(true);
-            scaleX = transform.localScale.x;
         }
 
         public void UpdatePosition()
@@ -103,6 +109,36 @@ namespace ZD5Project2D.Player
 
             Vector2 finalVelocity = new Vector2(x * direction, rigidbody2D.velocity.y);
             rigidbody2D.velocity = finalVelocity;
+
+            if(faceDirection == direction)
+            {
+                sprite.flipX = false;
+            }
+            else
+            {
+                sprite.flipX = true;
+            }
+
+            RaycastHit2D cameraRaycast = Physics2D.Raycast(rigidbody2D.position, Vector2.right * direction, cameraRaycastRange, 1 << 7);
+            Debug.DrawRay(rigidbody2D.position, Vector2.right * direction * 5, Color.red);
+
+            if(cameraRaycast.collider != null)
+            {
+                if(moveInput == 0)
+                {
+                    //StopMovement();
+                    camera.UpdateMovement(Vector2.zero, transform.position.y);
+                }
+                else
+                {
+                    camera.UpdateMovement(rigidbody2D.velocity, transform.position.y);
+                }
+            }
+            else
+            {
+                //StopMovement();
+                camera.UpdateMovement(Vector2.zero, transform.position.y);
+            }
         }
 
         public void Jump()
