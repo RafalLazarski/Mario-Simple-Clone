@@ -8,6 +8,14 @@ namespace ZD5Project2D.Enemy
         [SerializeField]
         private List<EnemyInstance> enemies;
 
+        public void InitEnemies()
+        {
+            foreach (var enemy in enemies)
+            {
+                enemy.Init();
+            }
+        }
+
         public void UpdateEnemiesPos()
         {
             foreach (var enemy in enemies)

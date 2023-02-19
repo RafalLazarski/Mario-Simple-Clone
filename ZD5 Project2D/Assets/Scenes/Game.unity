@@ -167,6 +167,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8802292870983192897, guid: 68f7c9128ee34514eba0cb7792721fe8, type: 3}
   m_PrefabInstance: {fileID: 5442717796588708018}
   m_PrefabAsset: {fileID: 0}
+--- !u!212 &77318083 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 8483158548710304522, guid: 68f7c9128ee34514eba0cb7792721fe8, type: 3}
+  m_PrefabInstance: {fileID: 5442717796588708018}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &86090713
 GameObject:
   m_ObjectHideFlags: 0
@@ -377,6 +382,7 @@ MonoBehaviour:
   enemy: {fileID: 77318080}
   startWayPoint: {fileID: 1420381376}
   endWayPoint: {fileID: 852759242}
+  enemyRenderer: {fileID: 77318083}
 --- !u!1 &252366856
 GameObject:
   m_ObjectHideFlags: 0
@@ -388,7 +394,7 @@ GameObject:
   - component: {fileID: 252366857}
   - component: {fileID: 252366859}
   - component: {fileID: 252366858}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: CameraParent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -446,6 +452,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rigidbody2D: {fileID: 252366858}
+  cameraBoundaries: {x: 0, y: 15}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -499,7 +506,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 7.66
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -529,6 +536,11 @@ Transform:
   m_Father: {fileID: 252366857}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &532760666 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 8483158548710304522, guid: 68f7c9128ee34514eba0cb7792721fe8, type: 3}
+  m_PrefabInstance: {fileID: 1046340753}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &549622952
 GameObject:
   m_ObjectHideFlags: 0
@@ -734,6 +746,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemies:
   - {fileID: 228451601}
+  - {fileID: 1046340759}
 --- !u!1001 &697789385
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1401,7 +1414,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5442717797334095538, guid: 68f7c9128ee34514eba0cb7792721fe8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -6.76
+      value: -4.26
       objectReference: {fileID: 0}
     - target: {fileID: 5442717797334095538, guid: 68f7c9128ee34514eba0cb7792721fe8, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1485,6 +1498,7 @@ MonoBehaviour:
   enemy: {fileID: 1046340757}
   startWayPoint: {fileID: 1046340756}
   endWayPoint: {fileID: 1046340755}
+  enemyRenderer: {fileID: 532760666}
 --- !u!1001 &1117804707
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2042,7 +2056,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 10}
+  m_Size: {x: 1, y: 15}
   m_EdgeRadius: 0
 --- !u!1 &1760466098
 GameObject:
@@ -2740,7 +2754,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 10}
+  m_Size: {x: 1, y: 15}
   m_EdgeRadius: 0
 --- !u!1 &1994969910
 GameObject:

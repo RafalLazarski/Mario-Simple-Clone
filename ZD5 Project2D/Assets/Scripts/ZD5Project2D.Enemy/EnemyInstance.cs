@@ -12,9 +12,39 @@ namespace ZD5Project2D.Enemy {
 		[SerializeField]
 		private Transform endWayPoint;
 
-		public void UpdatePosition()
+		[SerializeField]
+		private SpriteRenderer enemyRenderer;
+
+		private bool isMovingFromStartToEnd = true;
+		private float startTime;
+		private float currentTime;
+		private float duration = 5;
+
+        public void Init()
+        {
+			startTime = Time.time;
+			currentTime = 0;
+        }
+
+        public void UpdatePosition()
 		{
-			Debug.Log("Update enemy pos");
+			currentTime = (Time.time - startTime) / duration;
+
+			if(isMovingFromStartToEnd)
+			{
+				enemy.position = Vector3.Lerp(startWayPoint.position, endWayPoint.position, currentTime);
+			}
+			else
+			{
+                enemy.position = Vector3.Lerp(endWayPoint.position, startWayPoint.position, currentTime);
+            }
+
+			if(currentTime >= 1f)
+			{
+				enemyRenderer.flipX = !enemyRenderer.flipX;
+				isMovingFromStartToEnd = !isMovingFromStartToEnd;
+				Init();
+			}
 		}
 
 	}
