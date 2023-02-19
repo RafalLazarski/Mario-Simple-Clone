@@ -21,7 +21,7 @@ namespace ZD5Project2D.Core
         public override void UpdateState()
         {
             gameController.PlayerMovement.UpdatePosition();
-            gameController.GameView.UpdatePoints(gameController.PointsSystem.Points);
+            gameController.EnemyController.UpdateEnemiesPos();
         }
 
         public override void FixedUpdateState()

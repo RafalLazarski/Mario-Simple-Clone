@@ -183,6 +183,7 @@ namespace ZD5Project2D.Player
             if (collision.gameObject.CompareTag("Coin"))
             {
                 OnCoinCollected?.Invoke();
+
                 Destroy(collision.gameObject);
             }
         }

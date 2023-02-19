@@ -1,6 +1,7 @@
 using UnityEngine;
 using ZD5Project2D.UI;
 using ZD5Project2D.Player;
+using ZD5Project2D.Enemy;
 
 namespace ZD5Project2D.Core
 {
@@ -23,6 +24,10 @@ namespace ZD5Project2D.Core
         [SerializeField]
         private PlayerMovement playerMovement;
         public PlayerMovement PlayerMovement => playerMovement;
+
+        [SerializeField]
+        private EnemyController enemyController;
+        public EnemyController EnemyController => enemyController;
 
         private void Start()
         {
