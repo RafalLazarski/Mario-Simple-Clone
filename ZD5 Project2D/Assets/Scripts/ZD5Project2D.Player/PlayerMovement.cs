@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace ZD5Project2D.Player
@@ -44,6 +45,8 @@ namespace ZD5Project2D.Player
 
         [SerializeField]
         private SpriteRenderer sprite;
+
+        private Action OnCoinCollected;
 
         private float moveInput;
         private float sprintInput;
@@ -163,6 +166,25 @@ namespace ZD5Project2D.Player
 
             Vector2 finalVelocity = new Vector2(rigidbody2D.velocity.x, y * direction);
             rigidbody2D.velocity = finalVelocity;
+        }
+
+        public void AddListener(Action listener)
+        {
+            OnCoinCollected += listener;
+        }
+
+        public void RemoveListener()
+        {
+            OnCoinCollected = null;
+        }
+        
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (collision.gameObject.CompareTag("Coin"))
+            {
+                OnCoinCollected?.Invoke();
+                Destroy(collision.gameObject);
+            }
         }
     } 
 }

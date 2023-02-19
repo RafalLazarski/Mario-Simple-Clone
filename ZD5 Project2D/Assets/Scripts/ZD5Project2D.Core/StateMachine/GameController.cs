@@ -13,6 +13,14 @@ namespace ZD5Project2D.Core
         public MenuView MenuView => menuView; // {get { return menuView }}
 
         [SerializeField]
+        private GameView gameView;
+        public GameView GameView => gameView;
+
+        [SerializeField]
+        private PointsSystem pointsSystem;
+        public PointsSystem PointsSystem => pointsSystem;
+
+        [SerializeField]
         private PlayerMovement playerMovement;
         public PlayerMovement PlayerMovement => playerMovement;
 
