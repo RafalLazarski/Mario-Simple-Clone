@@ -29,6 +29,10 @@ namespace ZD5Project2D.Core
         private EnemyController enemyController;
         public EnemyController EnemyController => enemyController;
 
+        [SerializeField]
+        private LoseView loseView;
+        public LoseView LoseView => loseView;
+
         private void Start()
         {
             ChangeState(new MenuState());
@@ -46,8 +50,6 @@ namespace ZD5Project2D.Core
 
         private void OnDestroy()
         {
-            // ChangeState(null);
-            // some method to save game before shut down
         }
 
         public void ChangeState(BaseState newState)

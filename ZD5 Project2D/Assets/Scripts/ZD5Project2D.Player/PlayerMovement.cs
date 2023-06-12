@@ -48,6 +48,8 @@ namespace ZD5Project2D.Player
 
         private Action OnCoinCollected;
 
+        public Action OnEnemyHit;
+
         private float moveInput;
         private float sprintInput;
         private int jumpsLeft;
@@ -73,6 +75,13 @@ namespace ZD5Project2D.Player
             {
                 isJumpButtonClicked = true;
                 Jump();
+            }
+
+            RaycastHit2D boxCastHit = Physics2D.BoxCast(rigidbody2D.position, rigidbody2D.transform.localScale * 0.6f, 0, Vector2.down, 0.3f);
+
+            if (boxCastHit.collider != null && boxCastHit.collider.CompareTag("Enemy"))
+            {
+                boxCastHit.collider.gameObject.SetActive(false);
             }
         }
 
@@ -151,7 +160,7 @@ namespace ZD5Project2D.Player
             if (boxCastHit.collider != null && boxCastHit.collider.CompareTag("Ground"))
             {
                 jumpsLeft = jumpsAmount;
-            }
+            }            
 
             if(jumpsLeft > 0)
             {
@@ -168,7 +177,7 @@ namespace ZD5Project2D.Player
             rigidbody2D.velocity = finalVelocity;
         }
 
-        public void AddListener(Action listener)
+        public void AddMoneyListener(Action listener)
         {
             OnCoinCollected += listener;
         }
@@ -176,8 +185,19 @@ namespace ZD5Project2D.Player
         public void RemoveListener()
         {
             OnCoinCollected = null;
+            OnEnemyHit = null;
         }
-        
+
+        private void OnCollisionEnter2D(Collision2D other)
+        {
+
+            if (other.gameObject.CompareTag("Enemy"))
+            {
+                OnEnemyHit.Invoke();
+                Debug.Log("You lost");
+            }
+        }
+
         private void OnTriggerEnter2D(Collider2D collision)
         {
             if (collision.gameObject.CompareTag("Coin"))

@@ -15,7 +15,9 @@ namespace ZD5Project2D.Core
             gameController.PointsSystem.SetPoints(0);
             gameController.GameView.UpdatePoints(gameController.PointsSystem.Points);
 
-            gameController.PlayerMovement.AddListener(AddPoint);
+            gameController.PlayerMovement.AddMoneyListener(AddPoint);
+
+            gameController.PlayerMovement.OnEnemyHit += () => gameController.ChangeState(new LoseState());
         }
 
         public override void UpdateState()

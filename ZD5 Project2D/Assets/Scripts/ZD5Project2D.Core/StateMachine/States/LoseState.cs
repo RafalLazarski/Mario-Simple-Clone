@@ -7,6 +7,7 @@ namespace ZD5Project2D.Core
         public override void InitState(GameController gameController)
         {
             base.InitState(gameController);
+            gameController.LoseView.ShowView();
         }
 
         public override void UpdateState()
@@ -21,7 +22,7 @@ namespace ZD5Project2D.Core
 
         public override void DestroyState()
         {
-
+            gameController.LoseView.HideView();
         }
     }
 }
